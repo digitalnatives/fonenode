@@ -3,7 +3,7 @@ module Fonenode
     DEFAULT_ENDPOINT_URI = "api.fonenode.com"
     DEFAULT_API_VERSION = "v1"
 
-    attr_accessor :endpoint_uri, :api_version, :secure_http, :auth_id, :auth_secret, :secure_http
+    attr_accessor :endpoint_uri, :api_version, :secure_http, :auth_id, :auth_secret, :secure_http, :default_number
 
     def initialize
       @endpoint_uri = DEFAULT_ENDPOINT_URI
