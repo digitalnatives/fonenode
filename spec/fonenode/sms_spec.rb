@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Fonenode::Sms do
   context "structural tests: " do
-    let(:valid_temp_message) { Fonenode::Sms.new(:from => "12345", :to => "6789", :message => "Hello from spec!", :id => "not_valid", :sent_at => Time.now) }
+    let(:valid_temp_message) { Fonenode::Sms.new(:from => "12345", :to => "6789", :message => "Hello from spec!", :id => "not_valid", :@date => Time.now) }
 
     it "should not has an id" do
       expect(valid_temp_message.id).to be_nil
     end
     it "should not has a sent date" do
-      expect(valid_temp_message.sent_at).to be_nil
+      expect(valid_temp_message.date).to be_nil
     end
 
     it "has from phone number" do
@@ -43,7 +43,7 @@ describe Fonenode::Sms do
     end
 
     it "should not send if has id" do
-      sms = Fonenode::Sms.init_from_list(id: "12345", to: 1234, from: 4567, message: "Hello sms", sent_at: Time.now, type: Fonenode::Sms::OUTBOUND)
+      sms = Fonenode::Sms.init_from_list(id: "12345", to: 1234, from: 4567, message: "Hello sms", date: DateTime.now, type: Fonenode::Sms::OUTBOUND)
       expect { sms.send(@client) }.to raise_error("Can't send because this message is already sent")
     end
 
