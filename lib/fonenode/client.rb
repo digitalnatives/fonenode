@@ -11,10 +11,10 @@ module Fonenode
       @phone_numbers = PhoneNumbers.new(self)
     end
 
-    def send_sms(to, message, from=nil)
+    def send_sms(to, text, from=nil)
       raise "You have to setup defult number, or set from parameter" if from.blank? && Fonenode.default_number.blank?
       from = Fonenode.default_number if from.blank?
-      sms = Sms.new({to: to, message: message, from: from})
+      sms = Sms.new({to: to, text: text, from: from})
       sms.send(self)
       sms
     end
@@ -32,7 +32,13 @@ module Fonenode
     end
 
     def post(path, params={})
-      @connection.post "#{Fonenode.config.api_version}/#{path}", params
+      #@connection.post "#{Fonenode.config.api_version}/#{path}", params
+      @connection.post do |req|
+        req.url "#{Fonenode.config.api_version}/#{path}"
+        req.headers['Content-Type'] = 'application/json'
+        req.body = params
+      end
+
     end
 
     def put(path, params={})

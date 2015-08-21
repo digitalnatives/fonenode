@@ -42,7 +42,7 @@ describe Fonenode::SmsInbox do
     expect(sms.id).to eq "525e3fb3b218980d35000002"
     expect(sms.from).to eq "2348181019102"
     expect(sms.to).to eq "234803841727"
-    expect(sms.message).to eq "Should I still expect you today?"
+    expect(sms.text).to eq "Should I still expect you today?"
     expect(sms.date).to eq DateTime.new(2013, 10, 16, 7, 26, 43.209, "+00:00")
   end
 
@@ -55,7 +55,7 @@ describe Fonenode::SmsInbox do
     expect(@client.inbox.list[0].id).to eq "525e3fb3b218980d35000002"
     expect(@client.inbox.list[0].from).to eq "234803841727"
     expect(@client.inbox.list[0].to).to eq "2348181019102"
-    expect(@client.inbox.list[0].message).to eq "I will be around soon"
+    expect(@client.inbox.list[0].text).to eq "I will be around soon"
     expect(@client.inbox.list[0].date).to eq DateTime.new(2013, 10, 16, 7, 26, 43.209, "+00:00")
   end
 end

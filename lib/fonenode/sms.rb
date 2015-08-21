@@ -5,7 +5,7 @@ module Fonenode
     INBOUND = "inbound"
     DRAFT = "draft"
     SENT = "sent"
-    attr_reader :id, :from, :to, :message, :date, :type, :status
+    attr_reader :id, :from, :to, :text, :date, :type, :status
 
 
     class << self
@@ -26,7 +26,7 @@ module Fonenode
 
     def initialize(options={})
       super()
-      @from, @to, @message = options[:from], options[:to], options[:message]
+      @from, @to, @text = options[:from], options[:to], options[:text]
       @type = TEMP
       @status = DRAFT
     end
@@ -35,7 +35,12 @@ module Fonenode
       raise "Can't send because this message is already sent" if @type != TEMP || @id.present? || @date.present? || is_sent?
       raise "Can't send because to phone number not provided" if @to.blank?
       raise "Can't send because from phone number not provided" if @from.blank?
-      resp = client.post("sms", params)
+      puts "SEND PARAMETERS: #{params}"
+      if Fonenode.config.mock
+        resp = client.post("sms_mock", params)
+      else
+        resp = client.post("sms", params)
+      end
       resp_body = parse_response(resp)
       if (resp.status == 201)
         @id = resp_body[:id]
@@ -53,7 +58,7 @@ module Fonenode
 
     private
     def params
-      MultiJson.dump({to: @to, from: @from, message: @message})
+      MultiJson.dump({to: @to, from: @from, text: @text})
     end
 
   end

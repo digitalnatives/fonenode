@@ -3,12 +3,14 @@ module Fonenode
     DEFAULT_ENDPOINT_URI = "api.fonenode.com"
     DEFAULT_API_VERSION = "v1"
 
-    attr_accessor :endpoint_uri, :api_version, :secure_http, :auth_id, :auth_secret, :secure_http, :default_number
+    attr_accessor :endpoint_uri, :api_version, :secure_http, :auth_id,
+                  :auth_secret, :secure_http, :default_number, :mock
 
     def initialize
       @endpoint_uri = DEFAULT_ENDPOINT_URI
       @api_version = DEFAULT_API_VERSION
       @secure_http = true
+      @mock = false
     end
 
     def endpoint_url

@@ -18,7 +18,6 @@ module Fonenode
       resp_body = parse_response(resp)
       if @errors.size == 0
         resp_body[:type] = @box_type
-        resp_body[:message] =resp_body[:text]
         return Sms.init_from_list(resp_body)
       end
       return nil
@@ -33,7 +32,6 @@ module Fonenode
         @count = resp_body[:count]
         resp_body[:data].each do |data|
           data[:type] = @box_type
-          data[:message] =data[:text]
           @list << Sms.init_from_list(data)
         end
       end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Fonenode::Sms do
   context "structural tests: " do
-    let(:valid_temp_message) { Fonenode::Sms.new(:from => "12345", :to => "6789", :message => "Hello from spec!", :id => "not_valid", :@date => Time.now) }
+    let(:valid_temp_message) { Fonenode::Sms.new(:from => "12345", :to => "6789", :text => "Hello from spec!", :id => "not_valid", :@date => Time.now) }
 
     it "should not has an id" do
       expect(valid_temp_message.id).to be_nil
@@ -35,7 +35,7 @@ describe Fonenode::Sms do
     end
 
     it "should send if type TEMP" do
-      sms = Fonenode::Sms.new(to: 1234, from: 4567, message: "Hello sms")
+      sms = Fonenode::Sms.new(to: 1234, from: 4567, text: "Hello sms")
       expect(sms.send(@client)).to eq true
       expect(sms.is_sent?).to eq true
       expect(sms.id).to eq @temp_id
@@ -43,15 +43,15 @@ describe Fonenode::Sms do
     end
 
     it "should not send if has id" do
-      sms = Fonenode::Sms.init_from_list(id: "12345", to: 1234, from: 4567, message: "Hello sms", date: DateTime.now, type: Fonenode::Sms::OUTBOUND)
+      sms = Fonenode::Sms.init_from_list(id: "12345", to: 1234, from: 4567, text: "Hello sms", date: DateTime.now, type: Fonenode::Sms::OUTBOUND)
       expect { sms.send(@client) }.to raise_error("Can't send because this message is already sent")
     end
 
 
     it "should not send if to or from not provided" do
-      sms = Fonenode::Sms.new(from: 4567, message: "Hello sms")
+      sms = Fonenode::Sms.new(from: 4567, text: "Hello sms")
       expect { sms.send(@client) }.to raise_error("Can't send because to phone number not provided")
-      sms = Fonenode::Sms.new(to: 4567, message: "Hello sms")
+      sms = Fonenode::Sms.new(to: 4567, text: "Hello sms")
       expect { sms.send(@client) }.to raise_error("Can't send because from phone number not provided")
     end
 
@@ -59,7 +59,7 @@ describe Fonenode::Sms do
       WebMock.reset!
       stub_request(:post, stub_base_url+ "sms").
           to_return(body: "{}", status: 403)
-      sms = Fonenode::Sms.new(to: 1234, from: 4567, message: "Hello sms")
+      sms = Fonenode::Sms.new(to: 1234, from: 4567, text: "Hello sms")
       expect(sms.send(@client)).to eq false
       expect(sms.id).to be_blank
     end
@@ -68,7 +68,7 @@ describe Fonenode::Sms do
       WebMock.reset!
       stub_request(:post, stub_base_url+ "sms").
           to_return(body: MultiJson.dump(error: "Missing id parameter."), status: 400)
-      sms = Fonenode::Sms.new(to: 1234, from: 4567, message: "Hello sms")
+      sms = Fonenode::Sms.new(to: 1234, from: 4567, text: "Hello sms")
       expect(sms.send(@client)).to eq false
       expect(sms.errors.size).to eq 1
       expect(sms.errors[0]).to eq "Missing id parameter."
