@@ -29,6 +29,8 @@ module Fonenode
       if phone_number.present?
         if attach(phone_number.id, sms_url)
           phone_number.sms_url = sms_url
+        else
+          raise @errors.join(",")
         end
       else
         raise 'Phone number not found'

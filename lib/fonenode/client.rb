@@ -20,8 +20,6 @@ module Fonenode
     end
 
 
-
-
     def get(path, params={})
       @connection.get "#{Fonenode.config.api_version}/#{path}", params
     end
@@ -37,7 +35,11 @@ module Fonenode
     end
 
     def put(path, params={})
-      @connection.put "#{Fonenode.config.api_version}/#{path}", params
+      @connection.put do |req|
+        req.url "#{Fonenode.config.api_version}/#{path}"
+        req.headers['Content-Type'] = 'application/json'
+        req.body = params
+      end
     end
 
     private
