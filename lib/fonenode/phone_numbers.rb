@@ -40,7 +40,7 @@ module Fonenode
       clear_errors
       raise "Id can't be blank" if id.blank?
       raise "URL can't be blank" if sms_url.blank?
-      resp = @client.put("numbers/#{id}", {sms_url: sms_url})
+      resp = @client.put("numbers/#{id}",  MultiJson.dump({sms_url: sms_url}))
       parse_response(resp)
       @errors.size == 0
     end
