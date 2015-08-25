@@ -30,12 +30,16 @@ module Fonenode
         if attach(phone_number.id, sms_url)
           phone_number.sms_url = sms_url
         end
+      else
+        raise 'Phone number not found'
       end
       phone_number
     end
 
     def attach(id, sms_url)
       clear_errors
+      raise "Id can't be blank" if id.blank?
+      raise "URL can't be blank" if sms_url.blank?
       resp = @client.put("numbers/#{id}", {sms_url: sms_url})
       parse_response(resp)
       @errors.size == 0

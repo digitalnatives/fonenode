@@ -19,13 +19,8 @@ module Fonenode
       sms
     end
 
-    def get_numbers
 
-    end
 
-    def attach_number(number_id, endpoint)
-
-    end
 
     def get(path, params={})
       @connection.get "#{Fonenode.config.api_version}/#{path}", params
