@@ -48,7 +48,7 @@ module Fonenode
     def find_by_number(number)
       my_numbers
       counter = @count
-      number_of_pages = (counter/@limit).ceil-1 #counting starts from 0
+      number_of_pages = (counter/@limit).ceil #counting starts from 0
       (0..number_of_pages).each do |offset|
         my_numbers(offset)
         phone_number = get_number_from_numbers(number)
