@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Fonenode::Sms do
   context "structural tests: " do
-    let(:valid_temp_message) { Fonenode::Sms.new(:from => "12345", :to => "6789", :text => "Hello from spec!", :id => "not_valid", :@date => Time.now) }
+    let(:valid_temp_message) { Fonenode::Sms.new(:from => "12345", :to => "6789",
+                                                 :text => "Hello from spec!", :id => "not_valid",
+                                                 :date => Time.now, :delivery_date=>Time.now) }
 
     it "should not has an id" do
       expect(valid_temp_message.id).to be_nil

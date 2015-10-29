@@ -51,10 +51,13 @@ module Fonenode
       my_numbers
       counter = @count
       number_of_pages = (counter/@limit).ceil #counting starts from 0
-      (0..number_of_pages).each do |offset|
+      offset = 0
+      loop do
         my_numbers(offset)
         phone_number = get_number_from_numbers(number)
         return phone_number if phone_number.present?
+        offset += 1
+        break if offset >= number_of_pages
       end
       return nil
     end

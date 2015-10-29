@@ -5,7 +5,7 @@ module Fonenode
     INBOUND = "inbound"
     DRAFT = "draft"
     SENT = "sent"
-    attr_reader :id, :from, :to, :text, :date, :type, :status
+    attr_reader :id, :from, :to, :text, :date, :type, :status, :delivery_date
 
 
     class << self
@@ -15,10 +15,14 @@ module Fonenode
         raise "SMS type has to be INBOUND or OUTBOUND" if options[:type] != INBOUND && options[:type] != OUTBOUND
         message = Sms.new(options)
         date = options[:date].is_a?(DateTime) ? options[:date] : DateTime.parse(options[:date])
+        delivery_date = options[:delivery_date].is_a?(DateTime) ? options[:delivery_date] : DateTime.parse(options[:delivery_date]) if options[:delivery_date].present?
         message.instance_variable_set(:@id, options[:id])
         message.instance_variable_set(:@date, date)
         message.instance_variable_set(:@type, options[:type])
         message.instance_variable_set(:@status, SENT)
+        message.instance_variable_set(:@delivery_date, delivery_date) if delivery_date.present?
+        message.instance_variable_set(:@from, options[:from])
+        message.instance_variable_set(:@to, options[:to])
         message
       end
 

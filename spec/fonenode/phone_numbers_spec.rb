@@ -98,8 +98,8 @@ describe Fonenode::PhoneNumbers do
         to_return(body: MultiJson.dump(sample_response3), status: 200)
     stub_request(:put, stub_base_url+ "numbers/51b7c0bdbb86e153d8db4056").
         to_return(body: MultiJson.dump(sample_response), status: 201)
-    number = @client.phone_numbers.attach_by_number("1234567", "http://google.com/n_sms")
-    expect(number).to be_nil
+    expect { @client.phone_numbers.attach_by_number("1234567", "http://google.com/n_sms") }.to raise_error
   end
+
 
 end
