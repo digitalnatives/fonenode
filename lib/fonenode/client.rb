@@ -48,7 +48,7 @@ module Fonenode
       Faraday.new(:url => "#{Fonenode.endpoint_url}") do |faraday|
         faraday.use Faraday::Request::Retry
         faraday.use Faraday::Request::BasicAuthentication, Fonenode.auth_id, Fonenode.auth_secret
-        faraday.use Faraday::Response::Logger
+        # faraday.use Faraday::Response::Logger
         faraday.use Faraday::Adapter::NetHttp
       end
     end

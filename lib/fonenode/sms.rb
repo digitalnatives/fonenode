@@ -41,7 +41,6 @@ module Fonenode
       raise "Can't send because this message is already sent" if @type != TEMP || @id.present? || @date.present? || is_sent?
       raise "Can't send because to phone number not provided" if @to.blank?
       raise "Can't send because from phone number not provided" if @from.blank?
-      puts "SEND PARAMETERS: #{params}"
       if Fonenode.config.mock
         resp = client.post("sms_mock", params)
       else
