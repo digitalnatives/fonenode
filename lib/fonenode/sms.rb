@@ -23,7 +23,7 @@ module Fonenode
         message.instance_variable_set(:@delivery_date, delivery_date) if delivery_date.present?
         message.instance_variable_set(:@from, options[:from])
         message.instance_variable_set(:@to, options[:to])
-        message.instance_variable_set(:@mock, options[:mock]) if options[:mock]
+        message.instance_variable_set(:@mock, options[:mock].present? ? options[:mock] : false)
         message.instance_variable_set(:@delivery, options[:delivery]) if options[:delivery]
         message
       end
